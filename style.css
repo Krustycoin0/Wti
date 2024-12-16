@@ -1,0 +1,60 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
+}
+h1, h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+#chartContainer {
+    width: 90%;
+    max-width: 900px;
+    height: 450px;
+    border: 1px solid #ddd;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.segnali-table {
+    width: 90%;
+    max-width: 900px;
+    border-collapse: collapse;
+    margin: 20px auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: white;
+}
+.segnali-table th, .segnali-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: center;
+}
+.segnali-table th {
+    background-color: #3498db; /* Blue */
+    color: white;
+    font-weight: bold;
+}
+.segnali-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+.segnali-table tbody tr:hover {
+    background-color: #e8f5e9;
+}
+#segnali-container {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Grigio chiaro */
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+}
+#segnali-container p {
+    font-style: italic;
+    color: #777;
+}
