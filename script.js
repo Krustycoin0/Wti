@@ -1,16 +1,17 @@
-const API_KEY = 'eca7e6fada3b486b949707fd1f41dae5'; // Inserisci la tua API key di Twelve Data qui!!!
-const SYMBOL = 'WTI/USD'; // Simbolo di WTI/USD per Twelve Data
+const API_KEY = 'O9IAX40H43DM28UV'; // Inserisci la tua API key di Alpha Vantage qui!!!
+const SYMBOL = 'WTI'; // Simbolo del petrolio WTI per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
 const STOP_LOSS_PERCENT = 0.01; // 1% stop loss
 const UPDATE_INTERVAL = 120000; // intervallo di aggiornamento in millisecondi (es. 120000 = 2 minuti)
+const API_BASE_URL = 'https://www.alphavantage.co/query'; // URL base dell'API di Alpha Vantage
 
 let chart; // Variabile globale per il grafico
 
-// Funzione per ottenere i dati da Twelve Data
+// Funzione per ottenere i dati da Alpha Vantage
 async function getGoldData() {
     console.log("getGoldData: Inizio della funzione");
-    const url = `https://api.twelvedata.com/time_series?symbol=${SYMBOL}&interval=1day&outputsize=365&apikey=${API_KEY}`;
+    const url = `${API_BASE_URL}?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=full&apikey=${API_KEY}`;
 
     try {
         console.log("getGoldData: Eseguo la chiamata API a: ", url);
@@ -22,33 +23,46 @@ async function getGoldData() {
         const data = await response.json();
         console.log("getGoldData: Dati API ricevuti:", data);
         if (!data) {
-            console.error("getGoldData: Errore: i dati API sono nulli.");
+             console.error("getGoldData: Errore: i dati API sono nulli.");
             return null;
         }
-        if (Object.keys(data).length === 0) {
+          if (Object.keys(data).length === 0) {
             console.error("getGoldData: Errore: i dati API sono vuoti.");
             return null;
         }
-        if (!data.values) {
-            console.error("getGoldData: Errore: i dati API non hanno la chiave 'values'");
+           if (!data['Time Series (Daily)']) {
+            console.error("getGoldData: Errore: i dati API non hanno la chiave 'Time Series (Daily)'");
             return null;
         }
-        console.log("getGoldData: Chiamata API riuscita.");
-        return data;
+
+        // Rielaborazione dei dati per ottenere un formato simile a quello di Twelve Data
+        const timeSeries = data['Time Series (Daily)'];
+        const values = Object.entries(timeSeries)
+            .map(([date, values]) => ({
+                date: date,
+                open: parseFloat(values['1. open']),
+                high: parseFloat(values['2. high']),
+                low: parseFloat(values['3. low']),
+                close: parseFloat(values['4. close']),
+                volume: parseFloat(values['5. volume'])
+            }));
+
+         console.log("getGoldData: Chiamata API riuscita.");
+         return { values };
     } catch (error) {
-        console.error("getGoldData: Errore nel recupero dei dati da Twelve Data:", error);
+        console.error("getGoldData: Errore nel recupero dei dati da Alpha Vantage:", error);
         return null;
     }
 }
 
 // Funzione per calcolare le medie mobili
 function calculateSMA(data, timePeriod) {
-    if (!data || !data.values) {
+     if (!data || !data.values) {
         console.error("calculateSMA: Errore: i dati necessari per l'SMA non sono stati restituiti dall'API");
         return null;
     }
-    const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
-    if (dailyPrices.length < timePeriod) {
+     const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
+     if (dailyPrices.length < timePeriod) {
         console.warn("calculateSMA: Avviso: Dati insufficienti per calcolare l'SMA.");
         return null;
     }
@@ -164,7 +178,7 @@ function simulateFundamentalAnalysis() {
 
 // Funzione per generare i segnali
 function generateSignal(price, sma, rsi, macd, fundamentalSentiment, bollingerBands) {
-    if (!price || !sma || !rsi || !macd) {
+     if (!price || !sma || !rsi || !macd) {
         return null;
     }
     let signal = null;
@@ -187,7 +201,7 @@ function generateSignal(price, sma, rsi, macd, fundamentalSentiment, bollingerBa
 // Funzione per visualizzare il grafico
 async function aggiornaGrafico(data, signal) {
     console.log("aggiornaGrafico: Inizio della funzione.");
-    if (!data || !data.values) {
+      if (!data || !data.values) {
         console.error("aggiornaGrafico: Errore: i dati necessari per visualizzare il grafico non sono stati restituiti dall'API");
         return null;
     }
@@ -318,7 +332,6 @@ function calculateResistance(prices) {
     return Math.max(...prices); //massimo valore del periodo
 }
 
-
 // Funzione per aggiornare la pagina dei segnali
 async function aggiornaSegnaliPagina() {
     const data = await getGoldData();
@@ -330,7 +343,7 @@ async function aggiornaSegnaliPagina() {
         }
         return;
     }
-    const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
+     const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
     const sma = calculateSMA(data, TIME_PERIOD);
     const rsi = calculateRSI(data, TIME_PERIOD);
     const bollingerBands = calculateBollingerBands(data, TIME_PERIOD);
