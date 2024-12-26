@@ -1,4 +1,4 @@
-const API_KEY = 'O9IAX40H43DM28UV'; // Inserisci la tua API key di Alpha Vantage qui!!!
+const API_KEY = 'PDA27AIACX88RTV0'; // Inserisci la tua API key di Alpha Vantage qui!!!
 const SYMBOL = 'WTI'; // Simbolo del petrolio WTI per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
