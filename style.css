@@ -1,109 +1,83 @@
-/* Reset some basic browser styles */
-body, h1, h2, p, table {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: #333;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
-}
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 10px;
+    color: #333;
 }
 
 header {
-    background-color: #2c3e50; /* Darker header */
-    color: white;
-    padding: 1em 0;
+    background-color: #2c3e50;
+    color: #fff;
     text-align: center;
+    padding: 1em 0;
+}
+header h1 {
+    margin: 0
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2em;
-}
 
 main {
-    padding: 20px 0;
-}
-
-.content-wrapper {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: space-around;
 }
 
-section {
-    background-color: white;
-    padding: 20px;
+#chart-section, #segnali-section {
+    width: 48%;
+    margin-bottom: 20px;
+    padding: 15px;
+     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    flex: 1 1 45%;
-    min-width: 300px;
+    box-sizing: border-box;
 }
-
-section h2 {
-    margin-bottom: 15px;
+#chart-section h2, #segnali-section h2 {
     text-align: center;
+     margin-top: 0;
+}
+#chartContainer {
+    width: 100%;
+     box-sizing: border-box;
+    min-height: 300px;
+    margin: 10px auto;
 }
 
-#segnali-container p {
-  text-align: center;
-   font-size: 1.1em;
-   font-weight: bold;
-}
 .segnali-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.segnali-table th,
-.segnali-table td {
+.segnali-table th, .segnali-table td {
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
-     border: 1px solid #ddd;
 }
 
 .segnali-table th {
     background-color: #f2f2f2;
 }
 
-#chartContainer {
-    width: 100%;
-    margin: 20px auto;
-    border-radius: 8px;
-}
-
 footer {
     text-align: center;
     padding: 1em 0;
-    background-color: #333;
-    color: white;
+    background-color: #2c3e50;
+    color: #fff;
     position: relative;
     bottom: 0;
     width: 100%;
 }
-
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    .content-wrapper {
+    main {
         flex-direction: column;
     }
-    section {
-      flex: 1 1 100%;
-      min-width: unset;
+    #chart-section, #segnali-section {
+        width: 100%;
     }
-    #chartContainer {
-      width: 100%;
-    }
-
 }
