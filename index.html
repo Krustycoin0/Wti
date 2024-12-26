@@ -1,40 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oil Trading Signals</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Trading Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 <body>
     <header>
-         <div class="container">
-            <h1><i class="fa-solid fa-oil-well"></i> Oil Trading Signals</h1>
-        </div>
+        <h1>Trading Dashboard WTI</h1>
+        
     </header>
+    <main>
+        <section id="chart-section">
+            <h2>Grafico Prezzo WTI</h2>
+            <div id="chartContainer"></div>
+        </section>
 
-    <main class="container">
-        <div class="content-wrapper">
-            <section class="signal-area">
-                <h2>Segnali di Trading</h2>
-                <div id="segnali-container"></div>
-            </section>
-
-            <section class="chart-area">
-                <h2>Grafico Prezzo WTI</h2>
-                <div id="chartContainer"></div>
-            </section>
-        </div>
+         <section id="segnali-section">
+             <h2>Segnali di Trading</h2>
+             <div id="segnali-container">
+                <p>Caricamento dei segnali in corso...</p>
+             </div>
+        </section>
     </main>
-
     <footer>
-         <div class="container">
-            <p>© 2024 Oil Trading Signals App</p>
-        </div>
+        <p>© 2024 Trading Dashboard - Dati forniti da Alpha Vantage</p>
     </footer>
     <script src="script.js"></script>
 </body>
