@@ -1,17 +1,18 @@
 const API_KEY = 'PDA27AIACX88RTV0'; // Inserisci la tua API key di Alpha Vantage qui!!!
-const SYMBOL = 'WTI'; // Simbolo del petrolio WTI per Alpha Vantage
+const SYMBOL = 'CL'; // Simbolo del petrolio Crude Oil (WTI) per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
 const STOP_LOSS_PERCENT = 0.01; // 1% stop loss
 const UPDATE_INTERVAL = 120000; // intervallo di aggiornamento in millisecondi (es. 120000 = 2 minuti)
 const API_BASE_URL = 'https://www.alphavantage.co/query'; // URL base dell'API di Alpha Vantage
+const OUTPUT_SIZE = 'compact'; // output size della API Alpha Vantage (full oppure compact)
 
 let chart; // Variabile globale per il grafico
 
 // Funzione per ottenere i dati da Alpha Vantage
 async function getGoldData() {
     console.log("getGoldData: Inizio della funzione");
-    const url = `${API_BASE_URL}?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=full&apikey=${API_KEY}`;
+    const url = `${API_BASE_URL}?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=${OUTPUT_SIZE}&apikey=${API_KEY}`;
 
     try {
         console.log("getGoldData: Eseguo la chiamata API a: ", url);
