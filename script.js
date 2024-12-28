@@ -1,5 +1,5 @@
 const API_KEY = 'PDA27AIACX88RTV0'; // Inserisci la tua API key di Alpha Vantage qui!!!
-const SYMBOL = 'USCRUDEOIL'; // Simbolo del petrolio Crude Oil (WTI) per Alpha Vantage
+const SYMBOL = 'BCO.UK'; // Simbolo del petrolio Brent Oil UK per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
 const STOP_LOSS_PERCENT = 0.01; // 1% stop loss
