@@ -1,83 +1,76 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+   font-family: 'Roboto', sans-serif;
+   margin: 0;
+   padding: 0;
+   background-color: #f4f4f4;
+   color: #333;
 }
 
 header {
-    background-color: #2c3e50;
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
+   background-color: #333;
+   color: #fff;
+   padding: 1em 0;
+   text-align: center;
 }
-header h1 {
-    margin: 0
-}
-
 
 main {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+   padding: 20px;
 }
 
-#chart-section, #segnali-section {
-    width: 48%;
-    margin-bottom: 20px;
-    padding: 15px;
-     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-#chart-section h2, #segnali-section h2 {
-    text-align: center;
-     margin-top: 0;
-}
-#chartContainer {
-    width: 100%;
-     box-sizing: border-box;
-    min-height: 300px;
-    margin: 10px auto;
+.dashboard {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center; /* Centra le card orizzontalmente */
+   gap: 20px;
+
 }
 
-.segnali-table {
-    width: 100%;
-    border-collapse: collapse;
+.card {
+   background-color: #fff;
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   padding: 20px;
+   flex: 1; /* Permette alle card di espandersi */
+   min-width: 300px; /* Larghezza minima per le card */
+}
+
+h2 {
+   margin-top: 0;
+   color: #333;
+}
+
+#segnali-container {
     margin-top: 10px;
+   font-size: 1.2em;
 }
-
+.segnali-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 10px;
+}
 .segnali-table th, .segnali-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+   border: 1px solid #ddd;
+   padding: 8px;
+   text-align: left;
 }
-
 .segnali-table th {
-    background-color: #f2f2f2;
+   background-color: #f2f2f2;
+   font-weight: bold;
 }
-
+#chartContainer{
+    width: 100% !important;
+    max-width: 800px; /*Larghezza massima per il canvas*/
+   margin-top: 20px;
+    display: block; /* Rimuove gli spazi extra */
+   margin-left: auto;
+   margin-right: auto;
+}
 footer {
-    text-align: center;
-    padding: 1em 0;
-    background-color: #2c3e50;
-    color: #fff;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-@media (max-width: 768px) {
-    main {
-        flex-direction: column;
-    }
-    #chart-section, #segnali-section {
-        width: 100%;
-    }
+  text-align: center;
+  padding: 1em 0;
+  background-color: #333;
+   color: #fff;
+   position: fixed;
+   bottom: 0;
+   width: 100%;
 }
