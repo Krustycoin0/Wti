@@ -1,4 +1,4 @@
-const API_KEY = 'PDA27AIACX88RTV0'; // Inserisci la tua API key di Alpha Vantage qui!!!
+const API_KEY = 'Z9CPES24IROH2S5E'; // Inserisci la tua API key di Alpha Vantage qui!!!
 const SYMBOL = 'GBPJPY'; // Simbolo della coppia GBP/JPY per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
