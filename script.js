@@ -1,5 +1,5 @@
 const API_KEY = 'PDA27AIACX88RTV0'; // Inserisci la tua API key di Alpha Vantage qui!!!
-const SYMBOL = 'BCO.UK'; // Simbolo del petrolio Brent Oil UK per Alpha Vantage
+const SYMBOL = 'GBPJPY'; // Simbolo della coppia GBP/JPY per Alpha Vantage
 const TIME_PERIOD = 20; // Periodo per le medie mobili e RSI
 const TAKE_PROFIT_PERCENT = 0.02; // 2% take profit
 const STOP_LOSS_PERCENT = 0.01; // 1% stop loss
@@ -10,34 +10,34 @@ const OUTPUT_SIZE = 'compact'; // output size della API Alpha Vantage (full oppu
 let chart; // Variabile globale per il grafico
 
 // Funzione per ottenere i dati da Alpha Vantage
-async function getGoldData() {
-    console.log("getGoldData: Inizio della funzione");
-    const url = `${API_BASE_URL}?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=${OUTPUT_SIZE}&apikey=${API_KEY}`;
+async function getForexData() {
+    console.log("getForexData: Inizio della funzione");
+      const url = `${API_BASE_URL}?function=FX_DAILY&from_symbol=GBP&to_symbol=JPY&outputsize=${OUTPUT_SIZE}&apikey=${API_KEY}`;
 
     try {
-        console.log("getGoldData: Eseguo la chiamata API a: ", url);
+        console.log("getForexData: Eseguo la chiamata API a: ", url);
         const response = await fetch(url);
         if (!response.ok) {
-            console.error("getGoldData: Errore HTTP nella chiamata API:", response.status, response.statusText);
+            console.error("getForexData: Errore HTTP nella chiamata API:", response.status, response.statusText);
             return null;
         }
         const data = await response.json();
-        console.log("getGoldData: Dati API ricevuti:", data);
-        if (!data) {
-             console.error("getGoldData: Errore: i dati API sono nulli.");
+        console.log("getForexData: Dati API ricevuti:", data);
+          if (!data) {
+             console.error("getForexData: Errore: i dati API sono nulli.");
             return null;
         }
           if (Object.keys(data).length === 0) {
-            console.error("getGoldData: Errore: i dati API sono vuoti.");
+            console.error("getForexData: Errore: i dati API sono vuoti.");
             return null;
         }
-           if (!data['Time Series (Daily)']) {
-            console.error("getGoldData: Errore: i dati API non hanno la chiave 'Time Series (Daily)'");
+         if (!data['Time Series FX (Daily)']) {
+            console.error("getForexData: Errore: i dati API non hanno la chiave 'Time Series FX (Daily)'");
             return null;
         }
 
         // Rielaborazione dei dati per ottenere un formato simile a quello di Twelve Data
-        const timeSeries = data['Time Series (Daily)'];
+        const timeSeries = data['Time Series FX (Daily)'];
         const values = Object.entries(timeSeries)
             .map(([date, values]) => ({
                 date: date,
@@ -45,17 +45,15 @@ async function getGoldData() {
                 high: parseFloat(values['2. high']),
                 low: parseFloat(values['3. low']),
                 close: parseFloat(values['4. close']),
-                volume: parseFloat(values['5. volume'])
-            }));
+                 }));
 
-         console.log("getGoldData: Chiamata API riuscita.");
+         console.log("getForexData: Chiamata API riuscita.");
          return { values };
     } catch (error) {
-        console.error("getGoldData: Errore nel recupero dei dati da Alpha Vantage:", error);
+        console.error("getForexData: Errore nel recupero dei dati da Alpha Vantage:", error);
         return null;
     }
 }
-
 // Funzione per calcolare le medie mobili
 function calculateSMA(data, timePeriod) {
      if (!data || !data.values) {
@@ -179,19 +177,22 @@ function simulateFundamentalAnalysis() {
 
 // Funzione per generare i segnali
 function generateSignal(price, sma, rsi, macd, fundamentalSentiment, bollingerBands) {
-     if (!price || !sma || !rsi || !macd) {
+    if (!price || !sma || !rsi || !macd || !bollingerBands) {
+        console.warn("generateSignal: Parametri insufficienti per generare un segnale.");
         return null;
     }
     let signal = null;
-    if (price > sma && rsi < 70 && fundamentalSentiment == "positivo" && macd.macd > macd.signal && price < bollingerBands.upper) {
+    if (price > sma && rsi < 70 && fundamentalSentiment === "positivo" && macd.macd > macd.signal && price < bollingerBands.upper) {
         signal = {
-            type: 'Acquista', entryPrice: price,
+            type: 'Acquista',
+            entryPrice: price,
             stopLoss: price * (1 - STOP_LOSS_PERCENT),
             takeProfit: price * (1 + TAKE_PROFIT_PERCENT)
         };
-    } else if (price < sma && rsi > 30 && fundamentalSentiment == "negativo" && macd.macd < macd.signal && price > bollingerBands.lower) {
+    } else if (price < sma && rsi > 30 && fundamentalSentiment === "negativo" && macd.macd < macd.signal && price > bollingerBands.lower) {
         signal = {
-            type: 'Vendi', entryPrice: price,
+            type: 'Vendi',
+            entryPrice: price,
             stopLoss: price * (1 + STOP_LOSS_PERCENT),
             takeProfit: price * (1 - TAKE_PROFIT_PERCENT)
         };
@@ -335,7 +336,7 @@ function calculateResistance(prices) {
 
 // Funzione per aggiornare la pagina dei segnali
 async function aggiornaSegnaliPagina() {
-    const data = await getGoldData();
+    const data = await getForexData();
     if (!data) {
         console.error("aggiornaSegnaliPagina: Errore: dati API nulli, impossibile aggiornare la pagina.");
         const segnaliContainer = document.getElementById('segnali-container');
@@ -344,29 +345,29 @@ async function aggiornaSegnaliPagina() {
         }
         return;
     }
-     const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
+    const dailyPrices = data.values.map(item => parseFloat(item.close)).slice().reverse();
     const sma = calculateSMA(data, TIME_PERIOD);
     const rsi = calculateRSI(data, TIME_PERIOD);
     const bollingerBands = calculateBollingerBands(data, TIME_PERIOD);
-    const macd = calculateMACD(data)
+    const macd = calculateMACD(data);
     const fundamentalSentiment = simulateFundamentalAnalysis();
     const price = dailyPrices[dailyPrices.length - 1];
     const signal = generateSignal(price, sma, rsi, macd, fundamentalSentiment, bollingerBands);
-    const segnaliContainer = document.getElementById('segnali-container');
-
-    if (segnaliContainer && signal) {
-        let html = '<table class="segnali-table">';
-        html += '<thead><tr><th>Tipo</th><th>Prezzo Ingresso</th><th>Stop Loss</th><th>Take Profit</th></tr></thead>';
-        html += '<tbody>';
-        html += `<tr><td>${signal.type}</td><td>${signal.entryPrice.toFixed(2)}</td><td>${signal.stopLoss.toFixed(2)}</td><td>${signal.takeProfit.toFixed(2)}</td></tr>`;
-        html += '</tbody></table>';
-        segnaliContainer.innerHTML = html;
-    } else if (segnaliContainer) {
-        segnaliContainer.innerHTML = "<p>Nessun segnale generato al momento</p>";
+      const segnaliContainer = document.getElementById('segnali-container');
+     if (segnaliContainer) {
+         if (signal) {
+               let html = '<table class="segnali-table">';
+            html += '<thead><tr><th>Tipo</th><th>Prezzo Ingresso</th><th>Stop Loss</th><th>Take Profit</th></tr></thead>';
+            html += '<tbody>';
+            html += `<tr><td>${signal.type}</td><td>${signal.entryPrice.toFixed(4)}</td><td>${signal.stopLoss.toFixed(4)}</td><td>${signal.takeProfit.toFixed(4)}</td></tr>`;
+            html += '</tbody></table>';
+            segnaliContainer.innerHTML = html;
+         } else {
+            segnaliContainer.innerHTML = "<p>Nessun segnale generato al momento</p>";
+        }
     }
     aggiornaGrafico(data, signal);
 }
-
 
 // Aggiorna i segnali al caricamento della pagina e imposta l'intervallo per gli aggiornamenti futuri
 document.addEventListener('DOMContentLoaded', () => {
